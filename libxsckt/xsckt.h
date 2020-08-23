@@ -2,6 +2,20 @@
 
 #include <string>
 
+#ifdef WIN32
+
+#include "winsock_headers.h"
+
+#elif __linux__
+
+#include "linux_headers.h"
+
+#elif __APPLE__
+
+#include "darwin_headers.h"
+
+#endif
+
 /**
  * \addtogroup xsckt
  * @{
@@ -11,7 +25,7 @@ namespace xsckt {
 	/**
 	 * @brief BSD-esque abstract socket interface class for cross platform socket objects 
 	 */
-	struct interface {
+	struct bsd_interface {
 
         //------------minimal BSD/POSIX socket semantics------------
 
@@ -23,7 +37,7 @@ namespace xsckt {
          * @param address - text format Internet address
          * @param port - port number
          */
-        virtual void bind(const std::string& address, const unsigned short port) = 0;
+        virtual void bind(address_t& address, port_t port) = 0;
 
         /**
          * @brief listen() -  server side, prepares it for incoming connections, *after* a socket has been associated with an address.
@@ -37,7 +51,7 @@ namespace xsckt {
          * @note datagram sockets do not require processing by accept() since the receiver may immediately respond to the request using the listening socket.
          * @return unsigned int newly created socket file descriptor
          */
-        virtual unsigned int accept() = 0;
+        virtual sockfd_t accept() = 0;
 
         /**
          * @brief connect -  client side, establishes a direct communication link to a specific remote host identified by its address and port number. 
@@ -47,7 +61,7 @@ namespace xsckt {
          * @param address - the address to which datagrams are sent by default, and the only address from which datagrams are received.
          * @param port - port number
          */
-        virtual void connect(const std::string& address, const unsigned short port) = 0;
+        virtual void connect(address_t& address, port_t port) = 0;
 
         /**
          * @brief be_non_blocking - set this socket to non-blocking mode.
@@ -69,7 +83,7 @@ namespace xsckt {
          * @param flags - formed by ORing one or more of: MSG_CMSG_CLOEXEC, MSG_DONTWAIT, MSG_ERRQUEUE, MSG_OOB, MSG_PEEK, MSG_TRUNC, MSG_WAITALL - defaults to none
          * @return string - the message
          */
-        virtual std::string read(const int flags = 0) const = 0;
+        virtual std::string read(flag_t flags = 0) const = 0;
 
         /**
          * @brief write - write a message to this socket if connected
@@ -77,14 +91,14 @@ namespace xsckt {
          * @param flags - formed by ORing one or more of: MSG_CONFIRM, MSG_DONTROUTE, MSG_DONTWAIT, MSG_EOR, MSG_MORE, MSG_NOSIGNAL, MSG_OOB - defaults to none.
          * @return long - the number of bytes written
          */
-        virtual long write(const std::string& buffer, const int flags = 0) const = 0;
+        virtual long write(address_t& buffer, flag_t flags = 0) const = 0;
 
         /**
          * @brief read_from - receive data on a socket whether or not it is connection-oriented.
          * @param flags - formed by ORing one or more of: MSG_CMSG_CLOEXEC, MSG_DONTWAIT, MSG_ERRQUEUE, MSG_OOB, MSG_PEEK, MSG_TRUNC, MSG_WAITALL, MSG_EOR, MSG_TRUNC, MSG_CTRUNC, MSG_ERRQUEUE - defaults to none
          * @return string - the message
          */
-        virtual std::string read_from(const int flags = 0) = 0;
+        virtual std::string read_from(flag_t flags = 0) = 0;
 
         /**
          * @brief write_back - transmit a message to back the socket that has been read/read_from
@@ -92,7 +106,7 @@ namespace xsckt {
          * @param flags - formed by ORing one or more of: MSG_CONFIRM, MSG_DONTROUTE, MSG_DONTWAIT, MSG_EOR, MSG_MORE, MSG_NOSIGNAL, MSG_OOB - defaults to none.
          * @return long - the number of bytes written
          */
-        virtual long write_back(const std::string& buffer, const int flags = 0) = 0;
+        virtual long write_back(const std::string& buffer, flag_t flags = 0) = 0;
 
         /**
          * @brief hostname - returns the standard host name for the local computer
@@ -109,11 +123,26 @@ namespace xsckt {
          * @brief stop - causes all or part of a full-duplex connection on this socket to be shut down.
          * @param action - SHUT_RD, further receptions will be disallowed; SHUT_WR further transmissions will be disallowed; SHUT_RDWR, further receptions and transmissions will be disallowed.
          */
-        virtual void stop(const int action) = 0;
+        virtual void stop(flag_t action) = 0;
 
 
-        virtual ~interface() = default;
+        virtual ~bsd_interface() = default;
 
 	};
 
 }   /*! @} */
+
+/* macro defs:
+* 
+__linux__       Defined on Linux
+__sun           Defined on Solaris
+__FreeBSD__     Defined on FreeBSD
+__NetBSD__      Defined on NetBSD
+__OpenBSD__     Defined on OpenBSD
+__APPLE__       Defined on Mac OS X
+__hpux          Defined on HP - UX
+__osf__         Defined on Tru64 UNIX(formerly DEC OSF1)
+__sgi           Defined on Irix
+_AIX            Defined on AIX
+
+*/

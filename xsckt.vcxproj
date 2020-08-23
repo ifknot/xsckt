@@ -101,6 +101,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="libxsckt\windows_winsock_socket.h" />
+    <ClInclude Include="libxsckt\winsock_headers.h" />
     <ClInclude Include="libxsckt\xsckt.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
