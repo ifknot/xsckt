@@ -32,5 +32,8 @@
     <ClInclude Include="libxsckt\winsock_headers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="libxsckt\socket_constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

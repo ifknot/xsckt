@@ -11,6 +11,8 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "socket_constants.h"
+
 /**
  * \addtogroup xsckt
  * @{

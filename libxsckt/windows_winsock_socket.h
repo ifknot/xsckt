@@ -65,6 +65,12 @@ namespace xsckt {
         virtual void listen_to() final;
 
         /**
+         *@brief server_is_listening
+         * @return true if passive socket that can accept connection(s)
+         */
+        virtual bool is_listening() const final;
+
+        /**
          * @brief accept -  server side, when listening for stream-oriented connections, it creates a new *active* socket for each connection and removes the connection from the listening queue.
          * @note datagram sockets do not require processing by accept() since the receiver may immediately respond to the request using the listening socket.
          * @return unsigned int newly created socket file descriptor
@@ -84,7 +90,6 @@ namespace xsckt {
         /**
          * @brief be_non_blocking - set this socket to non-blocking mode.
          * by default sockets are created in blocking mode
-         *
          */
         virtual void be_non_blocking() final;
 
@@ -93,6 +98,7 @@ namespace xsckt {
         * The data is copied into the buffer, but is not removed from the input queue.
         * The function subsequently returns the amount of data that can be read in a single call to the recv
         * (or recvfrom) function, which may not be the same as the total amount of data queued on the socket.
+        * @return size_t - the amount of data that can be read
         */
         virtual const size_t peek() const final;
 
@@ -141,67 +147,17 @@ namespace xsckt {
          * @brief stop - causes all or part of a full-duplex connection on this socket to be shut down.
          * @param action - SHUT_RD, further receptions will be disallowed; SHUT_WR further transmissions will be disallowed; SHUT_RDWR, further receptions and transmissions will be disallowed.
          */
-        virtual void stop(flag_t action) final;
+        virtual void stop(action_t action) final;
 
     private:
 
         /**
-         * @brief _assign_address - system call helper converts an Internet address in its standard text format into its numeric binary form
+         * @brief _getaddrinfo - system call helper converts an Internet address in its standard text format into its numeric binary form
          * @param address - text format Internet address
          * @param port - IP port
          * @return int - Internet address in its numeric binary form
          */
-        int _assign_address(const std::string& address, const unsigned short port);
-
-        /**
-         * @brief _reset_socket - system call helper to enable fast restart by enabling kernel to reuse addresses and ports that may be active.
-         * @param socket - socket file descriptor
-         */
-        static void _reset_socket(sockfd_t socket);
-
-        /**
-         * @brief _peek - Peeks at an incoming message.
-         * The data is treated as unread and the next recv() or similar function shall still return this data.
-         * @param socket - socket file descriptor
-        */
-        static const size_t _peek(sockfd_t socket);
-
-        /**
-         * @brief _read - static system call helper receives message from a connected socket, behaviour dictated by flag options.
-         * If no messages are available at the socket, the receive calls wait for a message to arrive (unless the socket is nonblocking).
-         * @note May be used to receive data on both connectionless and connection-oriented sockets.
-         * @param socket - the *connected* socket file descriptor
-         * @param flags - formed by ORing one or more of: MSG_CMSG_CLOEXEC, MSG_DONTWAIT, MSG_ERRQUEUE, MSG_OOB, MSG_PEEK, MSG_TRUNC, MSG_WAITALL
-         * @return string - normally returns any data available, up to the requested amount, rather than waiting for receipt of the full amount requested.
-         */
-        static std::string _read(sockfd_t socket, const int flags);
-
-        /**
-         * @brief _write - static system call helper transmits a message to a socket, behaviour dictated by flag options.
-         * @param socket - the *connected* sending socket file descriptor
-         * @param buffer - the std:string to store the message
-         * @param flags - formed by ORing one or more of: MSG_CONFIRM, MSG_DONTROUTE, MSG_DONTWAIT, MSG_EOR, MSG_MORE, MSG_NOSIGNAL, MSG_OOB
-         * @return long - on success return the number of bytes sent, else -1
-         */
-        static long _write(sockfd_t socket, const std::string& buffer, const int flags);
-
-        /**
-         * @brief _read_from static system call helper receives message from specific address, behaviour dictated by flag options.
-         * @param socket - the socket file descriptor
-         * @param addr - target address
-         * @param flags - action flags
-         * @return string - normally returns any data available, up to the requested amount, rather than waiting for receipt of the full amount requested.
-         */
-        static std::string _read_from(sockfd_t socket, sockaddr_in& addr, const int flags);
-
-        /**
-         * @brief _write_back - static system call helper transmits a message back to socket address stored by either accept or read_from, behaviour dictated by flag options.
-         * @param socket
-         * @param addr
-         * @param flags
-         * @return long - on success return the number of bytes sent, else -1
-         */
-        static long _write_back(sockfd_t socket, const std::string& buffer, sockaddr_in& addr, const int flags);
+        int _getaddrinfo(const std::string& address, const unsigned short port);
 
         sockfd_t _socket;
 

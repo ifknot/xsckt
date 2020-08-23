@@ -47,6 +47,12 @@ namespace xsckt {
         virtual void listen_to() = 0;
 
         /**
+         *@brief server_is_listening
+         * @return true if passive socket that can accept connection(s)
+         */
+        virtual bool is_listening() const = 0;
+
+        /**
          * @brief accept -  server side, when listening for stream-oriented connections, it creates a new *active* socket for each connection and removes the connection from the listening queue.
          * @note datagram sockets do not require processing by accept() since the receiver may immediately respond to the request using the listening socket.
          * @return unsigned int newly created socket file descriptor
@@ -66,7 +72,6 @@ namespace xsckt {
         /**
          * @brief be_non_blocking - set this socket to non-blocking mode.
          * by default sockets are created in blocking mode
-         *
          */
         virtual void be_non_blocking() = 0;
 
@@ -75,6 +80,7 @@ namespace xsckt {
         * The data is copied into the buffer, but is not removed from the input queue.
         * The function subsequently returns the amount of data that can be read in a single call to the recv
         * (or recvfrom) function, which may not be the same as the total amount of data queued on the socket.
+        * @return size_t - the amount of data that can be read
         */
         virtual const size_t peek() const = 0;
 
@@ -133,7 +139,7 @@ namespace xsckt {
 }   /*! @} */
 
 /* macro defs:
-* 
+__MINGW__
 __linux__       Defined on Linux
 __sun           Defined on Solaris
 __FreeBSD__     Defined on FreeBSD

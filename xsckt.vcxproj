@@ -102,6 +102,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="libxsckt\socket_constants.h" />
     <ClInclude Include="libxsckt\windows_winsock_socket.h" />
     <ClInclude Include="libxsckt\winsock_headers.h" />
     <ClInclude Include="libxsckt\xsckt.h" />
