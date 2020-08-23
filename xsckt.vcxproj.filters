@@ -27,6 +27,9 @@
     <ClCompile Include="tcp_server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tcp_client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libxsckt\xsckt.h">
@@ -45,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="libxsckt\socket_factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tcp_client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

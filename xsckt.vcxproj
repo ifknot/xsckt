@@ -101,10 +101,12 @@
     <ClCompile Include="libxsckt\socket_factory.cpp" />
     <ClCompile Include="libxsckt\windows_winsock_socket.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tcp_client.cpp" />
     <ClCompile Include="tcp_server.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libxsckt\socket_factory.h" />
+    <ClInclude Include="tcp_client.h" />
     <ClInclude Include="tcp_server.h" />
     <ClInclude Include="libxsckt\socket_constants.h" />
     <ClInclude Include="libxsckt\windows_winsock_socket.h" />
