@@ -25,7 +25,7 @@ namespace xsckt {
             SO_REUSEADDR,   // reuse the address
             &optval, 
             sizeof(int)) == SOCKET_ERROR) {
-                throw std::runtime_error(_make_error_message());
+                throw std::runtime_error(make_error_message());
         }
     }
 
@@ -42,7 +42,7 @@ namespace xsckt {
 
         _socket = socket(_address_family, _socket_type, _protocol);
         if (_socket == INVALID_SOCKET) {
-            throw std::runtime_error(_make_error_message());
+            throw std::runtime_error(make_error_message());
         }
         char optval = 1;
         if (setsockopt(_socket, 
@@ -50,32 +50,28 @@ namespace xsckt {
             SO_REUSEADDR,   // reuse the address
             &optval, 
             sizeof(int)) == SOCKET_ERROR) {
-                throw std::runtime_error(_make_error_message());
+                throw std::runtime_error(make_error_message());
         }
         assert(_socket > 0);
     }
 
-    int base_socket::_assign_address(const std::string& address, const unsigned short port) {
-        // get server ip fit args
-        return getaddrinfo(address.c_str(), std::to_string(port).c_str(), &_hints, &_long_addr);  
+    base_socket::~base_socket() {}
+
+    void base_socket::bind_to(address_t& address, port_t port) {
+        auto e = _assign_address(address, port);
+        if (e == 0) {
+            bind_to(_socket, _long_addr->ai_addr, _long_addr->ai_addrlen);
+        }
+        else {
+            throw std::runtime_error(make_error_message());
+        }
     }
 
 
 
-    std::string base_socket::_make_error_message() {
-        auto err = WSAGetLastError();
-        char msgbuf[256];   // for a message up to 255 bytes.
-        msgbuf[0] = '\0';    // Microsoft doesn't guarantee this on man page.
-
-        FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,   // flags
-            NULL,                // lpsource
-            err,                 // message id
-            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),    // languageid
-            msgbuf,              // output buffer
-            sizeof(msgbuf),     // size of msgbuf, bytes
-            NULL);               // va_list of arguments
-
-        return (!*msgbuf) ?std::string("undefined error") : std::string(msgbuf);
+    int base_socket::_assign_address(const std::string& address, const unsigned short port) {
+        // get server ip fit args
+        return getaddrinfo(address.c_str(), std::to_string(port).c_str(), &_hints, &_long_addr);  
     }
 
 }   /*! @} */

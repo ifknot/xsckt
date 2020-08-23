@@ -22,7 +22,7 @@ namespace xsckt {
 	using port_t = const unsigned short;
 	using flag_t = const int;
 
-    static std::string _make_error_message() {
+    static std::string make_error_message() {
         auto err = WSAGetLastError();
         char msgbuf[256];   // for a message up to 255 bytes.
         msgbuf[0] = '\0';    // Microsoft doesn't guarantee this on man page.
@@ -49,7 +49,7 @@ namespace xsckt {
     static std::string startup() {
         WSADATA wsa_data;
         if (WSAStartup(v2_2, &wsa_data)) {
-            throw std::runtime_error(_make_error_message());
+            throw std::runtime_error(make_error_message());
         }
         std::stringstream ss;
         ss << "description: " << std::string(wsa_data.szDescription) << " - " << std::string(wsa_data.szSystemStatus);
@@ -64,7 +64,7 @@ namespace xsckt {
      */
     static inline void cleanup() {
         if (WSACleanup()) {
-            throw std::runtime_error(_make_error_message());
+            throw std::runtime_error(make_error_message());
         }
     }
 

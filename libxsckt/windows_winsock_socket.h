@@ -45,7 +45,7 @@ namespace xsckt {
 
         base_socket& operator= (const base_socket&) = default;
 
-        virtual ~base_socket() override;
+        virtual ~base_socket() final;
 
         /**
          * @brief bind -  server side, associates a socket with an address.
@@ -55,21 +55,21 @@ namespace xsckt {
          * @param address - text format Internet address
          * @param port - port number
          */
-        virtual void bind(address_t& address, port_t port) final;
+        virtual void bind_to(address_t& address, port_t port) final;
 
         /**
          * @brief listen() -  server side, prepares it for incoming connections, *after* a socket has been associated with an address.
          * However, this is only necessary for the stream-oriented (connection-oriented) data modes, i.e., for socket types (SOCK_STREAM, SOCK_SEQPACKET).
          * @return int newly created socket file descriptor
          */
-        virtual void listen() final;
+        virtual void listen_to() final;
 
         /**
          * @brief accept -  server side, when listening for stream-oriented connections, it creates a new *active* socket for each connection and removes the connection from the listening queue.
          * @note datagram sockets do not require processing by accept() since the receiver may immediately respond to the request using the listening socket.
          * @return unsigned int newly created socket file descriptor
          */
-        virtual sockfd_t accept() final;
+        virtual sockfd_t accept_from() final;
 
         /**
          * @brief connect -  client side, establishes a direct communication link to a specific remote host identified by its address and port number.
@@ -79,7 +79,7 @@ namespace xsckt {
          * @param address - the address to which datagrams are sent by default, and the only address from which datagrams are received.
          * @param port - port number
          */
-        virtual void connect(address_t& address, port_t port) final;
+        virtual void connect_to(address_t& address, port_t port) final;
 
         /**
          * @brief be_non_blocking - set this socket to non-blocking mode.
