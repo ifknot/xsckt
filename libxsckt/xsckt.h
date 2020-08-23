@@ -129,7 +129,7 @@ namespace xsckt {
          * @brief stop - causes all or part of a full-duplex connection on this socket to be shut down.
          * @param action - SHUT_RD, further receptions will be disallowed; SHUT_WR further transmissions will be disallowed; SHUT_RDWR, further receptions and transmissions will be disallowed.
          */
-        virtual void stop(flag_t action) = 0;
+        virtual void stop(action_t action) = 0;
 
 
         virtual ~bsd_interface() = default;

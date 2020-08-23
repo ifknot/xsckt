@@ -21,6 +21,9 @@
     <ClCompile Include="libxsckt\windows_winsock_socket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="libxsckt\socket_factory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libxsckt\xsckt.h">
@@ -33,6 +36,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="libxsckt\socket_constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tcp_server.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libxsckt\socket_factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

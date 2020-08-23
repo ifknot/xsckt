@@ -98,10 +98,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="libxsckt\socket_factory.cpp" />
     <ClCompile Include="libxsckt\windows_winsock_socket.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="libxsckt\socket_factory.h" />
+    <ClInclude Include="tcp_server.h" />
     <ClInclude Include="libxsckt\socket_constants.h" />
     <ClInclude Include="libxsckt\windows_winsock_socket.h" />
     <ClInclude Include="libxsckt\winsock_headers.h" />
