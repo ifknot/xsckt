@@ -154,12 +154,6 @@ namespace xsckt {
         int _assign_address(const std::string& address, const unsigned short port);
 
         /**
-         * @brief  _make_error_message- helper function to build an error message string
-         * @return system specific error message
-         */
-        std::string _make_error_message();
-
-        /**
          * @brief _reset_socket - system call helper to enable fast restart by enabling kernel to reuse addresses and ports that may be active.
          * @param socket - socket file descriptor
          */
