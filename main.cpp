@@ -2,6 +2,8 @@
 
 int main() {
 
-  return 0;
+	std::cout << "xsckt\n";
+
+	return 0;
   
 }
