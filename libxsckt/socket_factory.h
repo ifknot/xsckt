@@ -78,7 +78,7 @@ namespace xsckt {
     struct multi_socket<protocol_t::TCP, role_t::active, family_t::IPv4, socket_t::STREAM> :
         private base_socket {
 
-        explicit multi_socket(unsigned int socket);
+        explicit multi_socket(unsigned int socket, blocking_t sync = blocking_t::BLOCKING);
 
         multi_socket(const multi_socket&) = default;
 
@@ -104,7 +104,7 @@ namespace xsckt {
     struct multi_socket<protocol_t::TCP, role_t::server, family_t::IPv4, socket_t::STREAM> :
         private base_socket {
 
-        multi_socket(const std::string addr, const unsigned short port);
+        multi_socket(const std::string addr, const unsigned short port, blocking_t sync = blocking_t::BLOCKING);
 
         std::string hostname() const final;
 

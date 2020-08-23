@@ -43,7 +43,13 @@ namespace xsckt {
     }
 
     //------------tcp_active_socket implementation------------
-    tcp_active_socket::multi_socket(unsigned int socket) : base_socket(socket) {}
+    tcp_active_socket::multi_socket(unsigned int socket, blocking_t sync) :
+        base_socket(socket) 
+    {
+        if (sync == blocking_t::NONBLOCKING) {
+           base_socket::be_non_blocking();
+        }
+    }
 
     std::string tcp_active_socket::hostname() const {
         return base_socket::hostname();
@@ -62,8 +68,12 @@ namespace xsckt {
     }
 
     //------------tcp_server_socket implementation------------
-    tcp_server_socket::multi_socket(const std::string addr, const unsigned short port) :
-        base_socket(AF_INET, SOCK_STREAM, 0) {
+    tcp_server_socket::multi_socket(const std::string addr, const unsigned short port, blocking_t sync) :
+        base_socket(AF_INET, SOCK_STREAM, 0) 
+    {
+        if (sync == blocking_t::NONBLOCKING) {
+            base_socket::be_non_blocking();
+        }
         bind_to(addr, port);
         listen_to();
     }

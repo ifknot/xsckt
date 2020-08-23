@@ -11,6 +11,7 @@ namespace xsckt {
     enum class role_t { client, server, active };
     enum class family_t { IPv4, IPv6, IrDA, Bluetooth };
     enum class socket_t { STREAM, DGRAM, RAW, RDM };
+    enum class blocking_t { BLOCKING, NONBLOCKING};
 
     //stop actions
     enum class action_t { READ, WRITE, READ_AND_WRITE };
